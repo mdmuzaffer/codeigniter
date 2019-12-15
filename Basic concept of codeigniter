@@ -10,8 +10,7 @@ http://localhost/doctor/index.php/welcome/about
 
 3. How to remove index.php from url ?
 ----------------------------------------------
-Creat .htaccess file in project root and past code in .htaccess file:-
-
+Creat .htaccess file in project root folder and past code in .htaccess file:-
 code
 ------------------------------------------------------
 <IfModule mod_rewrite.c> 
@@ -22,7 +21,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L] 
 </IfModule>
 -------------------------------------------------------
-Also remove index.php fron config.php file
+Also remove index.php fron config/config.php file
 $config['index_page'] = 'index.php'; to =>$config['index_page'] = '';
 
 4. How to add database connection 
