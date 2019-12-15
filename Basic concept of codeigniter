@@ -52,4 +52,53 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 ---------------
+5. How to add CSS and Js file link ?
+-----------------------------------------
+Make folder in root folder with any name like public and add all js and css file folder then in view file add link of css and js like:-
+------------------
+<link rel="stylesheet" href="<?=base_url();?>public/front/css/owl.carousel.min.css">
+<link rel="stylesheet" href="<?=base_url();?>public/front/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="<?=base_url();?>public/front/css/magnific-popup.js">
+ 
+ 6. How to call header and footer seprate in codeigniter view ?
+ -------------------------------------------------------------------
+public function appointment(){
+	$this->load->view('front/header/header.php');
+	$this->load->view('front/page/appointment.php');
+	$this->load->view('front/footer/footer.php');
+}
+
+7. How to remove controller name from url ?
+--------------------------------------------------------
+In the config folder routes.php file create or override of urls like:-
+
+$route['default_controller'] = 'welcome';
+$route['about'] = 'welcome/about';
+$route['doctor'] = 'welcome/doctor';
+$route['blog'] = 'welcome/blog';
+$route['appointment'] = 'welcome/appointment';
+$route['contact'] = 'welcome/contact';
+$route['register'] = 'welcome/register';
+$route['login'] = 'welcome/login';
+
+$route['404_override'] = '';
+$route['translate_uri_dashes'] = FALSE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
