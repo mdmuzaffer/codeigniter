@@ -42,3 +42,46 @@
     </div>
 </div>
 --------------------------------------------
+2. How to store form field value if other form field invalid .It is the prevent to all form field reset if one field invalide.
+-------------------------------------------------------------------------------------------------------------------------------------
+<input type="text" class="form-input" name="name" id="name" placeholder="Your Name" value="<?php echo set_value('name'); ?>" />
+
+3. How to display form validation error perticular form field
+------------------------------------------------------------------------------------------------
+ <div class="errorMessage"><?php echo form_error('name');?></div>
+ 
+4.How to form validate in codeigniter:-
+-----------------------------------------------------------------------
+Use form validate library in function or construct:-
+	public function __construct() {
+        parent::__construct();
+        $this->load->helper('url');
+        $this->load->library('form_validation');
+        $this->load->model('doctor');
+    }
+    
+  Add form validation rule and send data in model:-
+  ------------------------------------------------------------------------
+  	public function register(){
+		if($_SERVER['REQUEST_METHOD'] =='POST'){
+			$registerData = $this->input->post();
+
+		$this->form_validation->set_rules('name', 'Username', 'trim|required|min_length[3]');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[doctor_register.email]');
+            $this->form_validation->set_rules('password', 'Password', 'required');
+            $this->form_validation->set_rules('re_password', 'Confirm Password', 'required|matches[password]');
+            $this->form_validation->set_rules('agree-term', 'Term and condition', 'required');
+            if ($this->form_validation->run() == true) { 
+         		$dataInsert = $this->doctor->register($registerData);
+         		if($dataInsert ==true){
+         		$this->session->set_flashdata('message', 'Your data insert successfully !');
+				redirect($_SERVER['HTTP_REFERER']);
+         		}
+			}
+		}
+		$this->load->view('front/header/header.php');
+		$this->load->view('front/page/register.php');
+		$this->load->view('front/footer/footer.php');
+	}
+
+
