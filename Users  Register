@@ -84,4 +84,17 @@ Use form validate library in function or construct:-
 		$this->load->view('front/footer/footer.php');
 	}
 
+5. How to save form data insert query in model ?
+-----------------------------------------------------------------------------------------------------------
+
+ public function register($dataForm){
+        $Doctordata = array( 
+        'name'=> $_POST['name'] , 
+        'email'=>  $_POST['email'], 
+        'password'=> md5($_POST['password']),
+        'cpassword'=> md5($_POST['re_password']),
+        'term'=>  $_POST['agree-term']
+    	);
+       return $this->db->insert('doctor_register', $Doctordata);
+    }
 
