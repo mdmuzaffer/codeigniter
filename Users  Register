@@ -1,1 +1,44 @@
 
+1. Create user register form in view :-
+--------------------------------------------
+
+<div class="MYcontainer">
+    <div class="signup-content">
+        <form method="POST" id="signup-form" class="signup-form" action="<?=base_url('/register');?>">
+            <h2 class="form-title">Doctor Account</h2>
+            <span style="color:red;text-align:center;margin-left:71px;"><?php 
+                if($this->session->flashdata('message')){
+                    echo $this->session->flashdata('message');
+                }?>
+            </span>
+            <div class="form-group">
+                <input type="text" class="form-input" name="name" id="name" placeholder="Your Name" value="<?php echo set_value('name'); ?>" />
+                <div class="errorMessage"><?php echo form_error('name');?></div>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-input" name="email" id="email" placeholder="Your Email" value="<?php echo set_value('email'); ?>" />
+                <div class="errorMessage"><?php echo form_error('email');?></div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-input" name="password" id="password" placeholder="Password" value="<?php echo set_value('password'); ?>" />
+                <div class="errorMessage"><?php echo form_error('password');?></div>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Repeat your password" value="<?php echo set_value('re_password'); ?>" />
+                <div class="errorMessage"><?php echo form_error('re_password');?></div>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="agree-term" value="1" id="agree-term" class="agree-term" value="<?php echo set_value('agree-term'); ?>" />
+                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                <div class="errorMessage"><?php echo form_error('agree-term');?></div>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up"/>
+            </div>
+        </form>
+        <p class="loginhere">
+            Have already an account ? <a href="#" class="loginhere-link">Login here</a>
+        </p>
+    </div>
+</div>
+--------------------------------------------
