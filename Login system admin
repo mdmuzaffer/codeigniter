@@ -1,1 +1,80 @@
-I am workin on this page
+LOGIN SYSTEM FOR ADMIN WITH VIEW, CONTROLLER, MODEL
+
+1. Creat view form for login
+----------------------------------------
+  <div class="container">
+	<?php $attributes = array('class' => 'login-form', 'id' => 'myform');
+     echo form_open('/login',$attributes);?>
+      <div class="login-wrap">
+        <span style="color:red;text-align:center;margin-left:71px;">
+        <?php 
+        if($this->session->flashdata('message')){
+          echo $this->session->flashdata('message');
+        }?>
+        </span>
+        <p class="login-img"><i class="icon_lock_alt"></i></p>
+		<?php if(isset($logout)){?><center><h4 style="color:red;"> Successfully Logout ! </h4></center><?php } ?>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="icon_profile"></i></span>
+          <input type="text" class="form-control" name="username" placeholder="E-mail" autofocus>
+        </div>
+		<?php echo form_error('username', '<div class="error">', '</div>'); ?>
+	   <div class="input-group">
+          <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+          <input type="password" class="form-control" name="password" value="<?php echo set_value('password'); ?>" placeholder="Password">
+		</div>
+		<?php echo form_error('password', '<div class="error">', '</div>'); ?>
+        
+		<label class="checkbox">
+      <input type="checkbox" value="remember-me"> Remember me
+      <span class="pull-right"> <a href="#"> Forgot Password?</a></span>
+    </label>
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+    <?php echo form_close(); ?>
+	<br>
+	 <a href="<?php echo base_url();?>admin/signup"><span class="btn btn-info btn-lg btn-block">Signup</span></a>
+    </div>
+  </div>
+  
+  2. validation in controller:-
+  ------------------------------------------------------------
+  	public function login(){
+		if($_SERVER['REQUEST_METHOD'] =='POST'){
+		$registerData = $this->input->post();
+		$this->form_validation->set_rules('username','Username','trim|required|valid_email');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required');
+			if ($this->form_validation->run() == true) { 
+				$responseData = $this->doctor->login($registerData);
+				if($responseData == True){
+					$sessionData = $this->session->userdata();
+					echo"<pre>";
+					print_r($sessionData);
+					redirect('doctor/dashboard');
+					die;
+				}else{
+			$this->session->set_flashdata('message', 'Your user name or password invalid !');
+			redirect($_SERVER['HTTP_REFERER']);
+				}
+			}
+		}
+		$this->load->view('front/doctor/login.php');
+	}
+
+3. Now add query for login in model 
+-------------------------------------------------------
+    public function login($registerData){
+        $username = $registerData['username'];
+        $password = md5($registerData['password']);
+        $this->db->where('email',$username);
+        $this->db->where('password',$password);
+        $this->db->where('term', '1');
+        $query = $this->db->get('doctor_register');
+
+         if($query->num_rows() == 1){
+            $row = $query->row();
+            $data = array('sessionName'=>'doctorSession', 'id' =>$row->id,'name' =>$row->name,'email' =>$row->email);
+           $this->session->set_userdata($data);
+            return true;
+        }
+        return false;
+    }
