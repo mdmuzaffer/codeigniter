@@ -290,3 +290,15 @@ Add validation in controller:-
 		$this->load->view('doctor/layout2.php');
 	}
 	
+-----------------------------------------
+
+Insert query in model:-
+--------------------------------------------------
+
+    public function doctorProfile($doctorsProfile){
+       return $this->db->insert('doctor_profile', $doctorsProfile);
+    }
+
+Here  $doctorsProfile is the array send from contrller with form value see the line no -251 and sended line no-270
+
+
