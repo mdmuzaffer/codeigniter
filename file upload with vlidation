@@ -206,3 +206,87 @@ $this->load->library('upload');
 			</div>
 		</div>
 	</form>
+
+-------------------------------------------------------
+
+Add validation in controller:-
+-----------------------------------
+
+	public function profile(){
+		$sessionData = $this->session->userdata();
+		if(!$sessionData['sessionName'] =='doctorSession'){
+			return redirect('/login');
+		}
+
+		if ($_SERVER['REQUEST_METHOD'] =='POST') {
+
+		$this->form_validation->set_rules('doctor_name', 'Doctor name', 'trim|required');
+		$this->form_validation->set_rules('specialty', 'Doctor Specialty', 'trim|required');
+		$this->form_validation->set_rules('facebook_link', 'Facebook link', 'trim|required');
+		$this->form_validation->set_rules('twitter_link',  'Twitter link', 'trim|required');
+		$this->form_validation->set_rules('instagram_link','Instagram link', 'trim|required');
+		$this->form_validation->set_rules('qualification', 'Qualification', 'trim|required');
+		$this->form_validation->set_rules('email','Email', 'trim|required|valid_email');
+		$this->form_validation->set_rules('phone','Phone', 'trim|required|numeric');
+		$this->form_validation->set_rules('pin','Pin', 'trim|required|numeric');
+		$this->form_validation->set_rules('state','State', 'trim|required');
+		$this->form_validation->set_rules('city','City', 'trim|required');
+		$this->form_validation->set_rules('hospital','Hospital', 'trim|required');
+		$this->form_validation->set_rules('passyear','Pass year', 'trim|required');
+		$this->form_validation->set_rules('country','Country', 'trim|required');
+		if ($this->form_validation->run() == true) { 
+			if($_FILES['userfile']['name']){
+				$config['upload_path']   = './upload/';
+		        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+		        $config['max_size']      = 2000;
+		        $config['max_width']     = 1500;
+		        $config['max_height']    = 1000;
+				$config['overwrite']     = TRUE;
+				$config['file_name']     = time().$_FILES['userfile']['name'];
+
+				$this->upload->initialize($config);
+				if ($this->upload->do_upload('userfile')){
+					$doctorProfileData = $this->input->post();
+
+					    $doctorsProfile = array(
+				        	'register_id' =>$sessionData['id'],
+				        	'name' =>$doctorProfileData['doctor_name'],
+				        	'specialty' =>$doctorProfileData['specialty'],
+				        	'image' =>time().$_FILES['userfile']['name'],
+				        	'facebook_link' =>$doctorProfileData['facebook_link'],
+				        	'twitter_link' =>$doctorProfileData['twitter_link'],
+				        	'instagram_link' =>$doctorProfileData['instagram_link'],
+				        	'message' =>$doctorProfileData['message'],
+				        	'qualification' =>$doctorProfileData['qualification'],
+				        	'passing_year' =>$doctorProfileData['passyear'],
+				        	'email' =>$doctorProfileData['email'],
+				        	'phone' =>$doctorProfileData['phone'],
+				        	'country' =>$doctorProfileData['country'],
+				        	'pin' =>$doctorProfileData['pin'],
+				        	'state' =>$doctorProfileData['state'],
+				        	'city' =>$doctorProfileData['city'],
+				        	'hospital' =>$doctorProfileData['hospital'],
+				        );
+				       $doctorSave =  $this->Doctors_profile->doctorProfile($doctorsProfile);
+
+				       if($doctorSave ==true){
+		         		$this->session->set_flashdata('message', 'Your data insert successfully !');
+						redirect($_SERVER['HTTP_REFERER']);
+		         		}
+				}else{
+					$error['errors'] = array('message' => $this->upload->display_errors());
+						$this->load->view('doctor/layout.php');
+						$this->load->view('doctor/profile.php',$error);
+						$this->load->view('doctor/layout2.php');
+						return;
+				}
+			}
+		}
+
+		}
+		$profileData['profileData'] = $this->Doctors_profile->profileDetails();
+		$this->load->view('doctor/layout.php',$profileData);
+		$this->load->view('doctor/profile.php');
+		$this->load->view('doctor/layout2.php');
+	}
+	
