@@ -29,8 +29,8 @@ public function doctorStatus(){
 				$config['smtp_host']    = 'ssl://smtp.gmail.com';
 				$config['smtp_port']    = '465';
 				$config['smtp_timeout'] = '7';
-				$config['smtp_user']    = 'developerphp1995@gmail.com';
-				$config['smtp_pass']    = 'shfcftmqlmryjlwi';
+				$config['smtp_user']    = 'demo@gmail.com'; // this is the email id
+				$config['smtp_pass']    = 'shfcftmqlmryjlwi321'; // this is the App Password
 				$config['charset']    = 'utf-8';
 				$config['newline']    = "\r\n";
 				$config['mailtype'] = 'html';
