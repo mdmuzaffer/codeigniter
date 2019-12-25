@@ -40,7 +40,7 @@ public function doctorStatus(){
 				$this->email->from('developerphp1995@gmail.com', 'Muzaffer Doctor');
 				$this->email->to($email); 
 				$this->email->subject('Doctor Profile Email');
-				$this->email->message('Your Profile has been approved Dear Raman23,<br> I will contact you soon');
+				$this->email->message('Your Profile has been approved Dear Raman,<br> I will contact you soon');
 
 				if($this->email->send()){
 			        echo "Mail send Successfully";
