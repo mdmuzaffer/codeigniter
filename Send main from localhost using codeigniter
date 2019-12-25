@@ -1,1 +1,56 @@
+First of all create mail id and verification 2-step should be (ON) and creat App passwords following steps:-
+
+step 1. create Gmail id and click on "Manage Your google account" => In Left side click on=>Security.
+
+Step 2. Now click on 2-Step verification it should be ON if already ON you can also can regenerate again OFF and ON.
+When click on 2-step verification it verification your mail id with mobile OTP send you follow the steps when it will ON you need to again
+Generete App Password.
+
+Step 3. Now again click on the "App Passwords" here you need to generate a password for use -'smtp_pass' place
+
+Step 4. Here there are two things:-
+
+	$config['smtp_user']    = 'demo@gmail.com'; // this is the email id
+	$config['smtp_pass']    = 'shfcftmqlmryjlwi321'; // this is the App Password
+  
+Step 5. Now send mail from localhost in codeigniter using email library like :-
+------------------------------------------------------------------------------
+public function doctorStatus(){
+		if($_SERVER['REQUEST_METHOD'] =='POST'){
+			$userId = $this->input->post('doctor_id');
+			$doctorData = array(
+				'status' =>1
+			);
+			$doctorData['status'] = $this->Doctors_profile->doctorStatus($userId,$doctorData);
+			if($doctorData ==true){
+        $this->load->library('email');
+				$email = "shazidh@yopmail.com";
+				$config['protocol']    = 'smtp';
+				$config['smtp_host']    = 'ssl://smtp.gmail.com';
+				$config['smtp_port']    = '465';
+				$config['smtp_timeout'] = '7';
+				$config['smtp_user']    = 'developerphp1995@gmail.com';
+				$config['smtp_pass']    = 'shfcftmqlmryjlwi';
+				$config['charset']    = 'utf-8';
+				$config['newline']    = "\r\n";
+				$config['mailtype'] = 'html';
+				$config['validation'] = TRUE;      
+
+				$this->email->initialize($config);
+				$this->email->from('developerphp1995@gmail.com', 'Muzaffer Doctor');
+				$this->email->to($email); 
+				$this->email->subject('Doctor Profile Email');
+				$this->email->message('Your Profile has been approved Dear Raman23,<br> I will contact you soon');
+
+				if($this->email->send()){
+			        echo "Mail send Successfully";
+			     }else{
+			     echo $this->email->print_debugger();
+			    }
+				//echo "Successfull update doctor status";
+			}
+		}
+
+	}
+
 
