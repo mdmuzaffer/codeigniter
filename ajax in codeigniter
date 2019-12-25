@@ -1,1 +1,54 @@
 
+1. Here I have updated doctor status on click status button. I have also used jquery on click get doctor id value and used AJAX
+
+2. view
+-----------------------
+<td>
+  <div class="btn-group">
+    <a class="btn btn-primary" href="#"><i class="icon_plus_alt2"></i></a>
+    <a class="btn btn-success" href="javascript:void('.$doctor->register_id.')" onclick="doctorStatus('.$doctor->register_id.')">
+    <i class="icon_check_alt2"></i></a>
+    <a class="btn btn-danger" href="#"><i class="icon_close_alt2"></i></a>
+  </div>
+</td>
+
+--------------------------------
+3. Call the 'doctorStatus' function in jquery file
+-----------
+function doctorStatus(id){
+	var base_url = "http://localhost/doctor/";
+	$.ajax({
+         type: "POST",
+         url: base_url + "admin/doctorStatus", 
+         data: {doctor_id: id},
+         dataType: "text",  
+         cache:false,
+         success: function(data){
+                $('.doctorStatus').html(data);
+                setTimeout('location.reload()', 5000);
+              }
+          });
+     return false;
+}
+
+--------------------------------
+4. Now controller 
+------------------
+	public function doctorStatus(){
+		if($_SERVER['REQUEST_METHOD'] =='POST'){
+			$userId = $this->input->post('doctor_id');
+			$doctorData = array(
+				'status' =>1
+			);
+			$doctorData['status'] = $this->Doctors_profile->doctorStatus($userId,$doctorData);
+    }
+}
+
+5. Now added update query in model
+-----------------------------------
+    public function doctorStatus($userId, $doctorData){
+        $this->db->where('register_id',$userId);
+        $query = $this->db->update('doctor_profile',$doctorData);
+        return $query;
+
+    }
