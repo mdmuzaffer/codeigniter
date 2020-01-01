@@ -84,6 +84,18 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
+8. How to pass multiple variable or array from controller to view:-
+------------------------------------------
+Make an array with different key
+public function index()
+{
+	$doctorList['doctors'] = $this->Doctors_profile->doctorList();
+	$doctorList['blogs'] = $this->Doctors_profile->doctorBlog();
+
+	$this->load->view('front/header/header.php');
+	$this->load->view('front/page/index.php',$doctorList);
+	$this->load->view('front/footer/footer.php');
+}
 
 
 
