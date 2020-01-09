@@ -38,7 +38,7 @@
 		$email = $sessionData['email'];
 		$id = $sessionData['id'];
 		$this->db->where('register_id', $id);
-    	$this->db->where('email',$email);
+    		$this->db->where('email',$email);
 		$query = $this->db->update('doctor_profile',$profileupdate);
 		return $query;
     }
