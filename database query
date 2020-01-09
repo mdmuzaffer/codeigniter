@@ -13,7 +13,6 @@
         $this->db->select('*');
         $this->db->from('doctor_profile');
         $this->db->join('doctor_register', 'doctor_register.id = doctor_profile.register_id');
-        //$query = $this->db->get('doctor_register');
         $query = $this->db->get();
         return $query->result();
 
@@ -50,3 +49,57 @@
     }
     
     
+ 6. Codeigniter JOIN Query
+we use join() method to join the 2 or more tables in codeigniter.
+Normal Join
+------------------------------------------------------------
+
+$this->db->select('*');
+$this->db->from('articles');
+$this->db->join('category', 'category.id = articles.id');
+ 
+$query = $this->db->get();
+ 
+// Produces:
+// SELECT * FROM articles JOIN category ON category.id = articles.id
+
+7. Join With Condition
+-----------------------------------------------------------
+$this->db->select('*');
+$this->db->from('articles');
+$this->db->join('category', 'category.id = articles.id');
+$this->db->where(array('category.id' => 10));
+$query = $this->db->get();
+// Produces:
+// SELECT * FROM articles JOIN category ON category.id = articles.id where category.id = 10
+
+8. Join with multiple tables
+You need to call join() method multiple times if you need several joins in one query.
+----------------------------------------------------------------------------------------
+$this->db->select('*');
+$this->db->from('articles');
+$this->db->join('category', 'category.id = articles.id');
+$this->db->join('comments', 'comments.id = articles.id');
+ 
+$query = $this->db->get();
+ 
+// Produces:
+// SELECT * FROM articles
+// JOIN category ON category.id = articles.id
+// JOIN comments ON comments.id = articles.id
+
+9. Join with specific type (left, right, outer, inner, left outer, and right outer)
+You need to call join() method multiple times if you need several joins in one query.
+-------------------------------------------------------------------------------------------
+$this->db->select('*');
+$this->db->from('articles');
+$this->db->join('category', 'category.id = articles.id','left');
+$this->db->join('comments', 'comments.id = articles.id','left');
+ 
+$query = $this->db->get();
+ 
+// Produces:
+// SELECT * FROM articles
+// LEFT JOIN category ON category.id = articles.id
+// LEFT JOIN comments ON comments.id = articles.id
+
