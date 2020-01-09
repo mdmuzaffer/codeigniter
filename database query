@@ -91,6 +91,7 @@ $query = $this->db->get();
 9. Join with specific type (left, right, outer, inner, left outer, and right outer)
 You need to call join() method multiple times if you need several joins in one query.
 -------------------------------------------------------------------------------------------
+
 $this->db->select('*');
 $this->db->from('articles');
 $this->db->join('category', 'category.id = articles.id','left');
